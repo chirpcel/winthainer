@@ -18,5 +18,4 @@ jobs:
         bsdtar -xpf alpine-minirootfs-3.14.2-x86_64.tar.gz -C minirootfs
     - name: Chroot Alpine minirootfs
       run: |
-        sudo chroot ./minirootfs /bin/ash -i
-        apk update
+        sudo chroot ./minirootfs /bin/ash -c apk update

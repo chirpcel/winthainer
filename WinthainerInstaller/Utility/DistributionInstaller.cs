@@ -12,11 +12,6 @@ namespace WinthainerInstaller.Utility
             Console.WriteLine("Importing distribution");
             ImportDistributionToWSL(installDir);
         }
-
-        private bool checkRequirements()
-        {
-            
-        }
         
         private void ImportDistributionToWSL(string installDir)
         {

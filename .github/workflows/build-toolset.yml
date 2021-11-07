@@ -23,8 +23,8 @@ jobs:
       run: dotnet publish -c release --no-restore --no-build
     - name: Organize files
       run: |
-      mkdir Deployment
-      mv .\WinthainerCommand\bin\Release\net5.0\win-x64\publish\ .\Deployment\WinthainerCommand
-      mv .\WinthainerService\bin\Release\net5.0-windows\win-x64\publish\ .\Deployment\WinthainerService
-      mv .\WinthainerInstaller\bin\Release\net5.0\win-x64\publish\WinthainerInstaller.exe .\Deployment\
-      ls .\Deployment
+        mkdir Deployment
+        mv .\WinthainerCommand\bin\Release\net5.0\win-x64\publish\ .\Deployment\WinthainerCommand
+        mv .\WinthainerService\bin\Release\net5.0-windows\win-x64\publish\ .\Deployment\WinthainerService
+        mv .\WinthainerInstaller\bin\Release\net5.0\win-x64\publish\WinthainerInstaller.exe .\Deployment\
+        ls .\Deployment

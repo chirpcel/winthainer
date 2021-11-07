@@ -17,10 +17,7 @@ jobs:
         dotnet-version: 5.0.x
     - name: Restore dependenciess
       run: dotnet restore
-      working-directory: ./WinthainerService
     - name: Build
       run: dotnet build -c release --no-restore
-      working-directory: ./WinthainerService
     - name: Publish
       run: dotnet publish -c release --no-restore --no-build
-      working-directory: ./WinthainerService

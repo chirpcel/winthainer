@@ -2,7 +2,7 @@ name: Build toolset
 
 on:
   push:
-    branches: [ feature/toolset-build ]
+    branches: [ main ]
 
 jobs:
   build:

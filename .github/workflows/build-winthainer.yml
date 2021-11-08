@@ -1,0 +1,83 @@
+name: Build toolset
+
+on:
+  push:
+    branches: [ feature/deployment-creation ]
+
+jobs:
+  build-toolset:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+    - name: Restore dependenciess
+      run: dotnet restore
+    - name: Build
+      run: dotnet build -c release --no-restore
+    - name: Publish
+      run: dotnet publish -c release --no-restore --no-build
+    - name: Organize files
+      run: |
+        mkdir Deployment
+        mv .\WinthainerCommand\bin\Release\net5.0\win-x64\publish\ .\Deployment\WinthainerCommand
+        mv .\WinthainerService\bin\Release\net5.0-windows\win-x64\publish\ .\Deployment\WinthainerService
+        mv .\WinthainerInstaller\bin\Release\net5.0\win-x64\publish\WinthainerInstaller.exe .\Deployment\
+    - name: Zip deployment
+      run : Compress-Archive -Path .\Deployment\* -DestinationPath .\WinthainerToolsetDeployment.zip
+    - name: Upload deployment
+      uses: actions/upload-artifact@v2
+      with:
+        name: WinthainerToolsetDeployment.zip
+        path: ./WinthainerToolsetDeployment.zip
+        retention-days: 1
+  build-distribution:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Install requirements
+      run: sudo apt install libarchive-tools
+    - name: Download Alpine minirootfs
+      run: wget https://dl-cdn.alpinelinux.org/alpine/v3.14/releases/x86_64/alpine-minirootfs-3.14.2-x86_64.tar.gz
+    - name: Unpack Alpine minirootfs
+      run: |
+        mkdir minirootfs
+        bsdtar -xpf alpine-minirootfs-3.14.2-x86_64.tar.gz -C minirootfs
+    - name: Chroot Alpine minirootfs
+      run: |
+        sudo cp /etc/resolv.conf ./minirootfs/etc/resolv.conf
+        sudo chroot ./minirootfs /bin/ash -c "apk update"
+        sudo chroot ./minirootfs /bin/ash -c "apk add docker"
+        sudo rm ./minirootfs/etc/resolv.conf
+    - name: Create tarball from minirootfs
+      run: bsdtar -a -cf WinthainerDistribution.tar.gz ./minirootfs
+    - name: Upload distribution
+      uses: actions/upload-artifact@v2
+      with:
+        name: WinthainerDistribution.tar.gz
+        path: ./WinthainerDistribution.tar.gz
+        retention-days: 1
+  create-deployment:
+    runs-on: windows-latest
+    needs: [build-toolset, build-distribution]
+    steps:
+    - name: Load toolset
+      uses: actions/download-artifact@v2
+      with:
+        name: WinthainerToolsetDeployment.zip
+    - name: Load distribution
+      uses: actions/download-artifact@v2
+      with:
+        name: WinthainerDistribution.tar.gz
+    - name: Unzip toolset
+      run: Expand-Archive -LiteralPath WinthainerToolsetDeployment.zip -DestinationPath .\WinthainerDeployment
+    - name: Move distribution into deployment
+      run: mv .\WinthainerDistribution.tar.gz .\WinthainerDeployment\
+    - name: Create deployment zip
+      run: Compress-Archive -Path .\WinthainerDeployment -DestinationPath .\WinthainerDeployment.zip
+    - name: Upload deployment
+      uses: actions/upload-artifact@v2
+      with:
+        name: WinthainerDeployment.zip
+        path: ./WinthainerDeployment.zip

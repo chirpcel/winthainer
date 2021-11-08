@@ -18,7 +18,7 @@ namespace WinthainerInstaller.Utility
             var winthainerProcess = new Process();
             winthainerProcess.StartInfo.FileName = "wsl";
             winthainerProcess.StartInfo.Arguments =
-                "--import Winthainer " + installDir + " ./WinthainerDistribution.tar";
+                "--import Winthainer " + installDir + " ./WinthainerDistribution.tar.gz";
             winthainerProcess.Start();
             winthainerProcess.WaitForExit();
         }

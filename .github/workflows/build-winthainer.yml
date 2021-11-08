@@ -26,7 +26,7 @@ jobs:
         mv .\WinthainerService\bin\Release\net5.0-windows\win-x64\publish\ .\Deployment\WinthainerService
         mv .\WinthainerInstaller\bin\Release\net5.0\win-x64\publish\WinthainerInstaller.exe .\Deployment\
     - name: Zip deployment
-      run : Compress-Archive -Path .\Deployment -DestinationPath .\WinthainerToolsetDeployment.zip
+      run : Compress-Archive -Path .\Deployment\* -DestinationPath .\WinthainerToolsetDeployment.zip
     - name: Upload deployment
       uses: actions/upload-artifact@v2
       with:

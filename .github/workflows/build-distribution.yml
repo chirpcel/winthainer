@@ -1,0 +1,30 @@
+name: Build distribution
+
+on: workflow_dispatch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Install requirements
+      run: sudo apt install libarchive-tools
+    - name: Download Alpine minirootfs
+      run: wget https://dl-cdn.alpinelinux.org/alpine/v3.14/releases/x86_64/alpine-minirootfs-3.14.2-x86_64.tar.gz
+    - name: Unpack Alpine minirootfs
+      run: |
+        mkdir minirootfs
+        bsdtar -xpf alpine-minirootfs-3.14.2-x86_64.tar.gz -C minirootfs
+    - name: Chroot Alpine minirootfs
+      run: |
+        sudo cp /etc/resolv.conf ./minirootfs/etc/resolv.conf
+        sudo chroot ./minirootfs /bin/ash -c "apk update"
+        sudo chroot ./minirootfs /bin/ash -c "apk add docker"
+        sudo rm ./minirootfs/etc/resolv.conf
+    - name: Create tarball from minirootfs
+      run: bsdtar -a -cf WinthainerDistribution.tar.gz ./minirootfs
+    - name: Upload distribution
+      uses: actions/upload-artifact@v2
+      with:
+        name: WinthainerDistribution.tar.gz
+        path: ./WinthainerDistribution.tar.gz
+        retention-days: 1

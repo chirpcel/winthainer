@@ -22,3 +22,11 @@ jobs:
         sudo chroot ./minirootfs /bin/ash -c "apk update"
         sudo chroot ./minirootfs /bin/ash -c "apk add docker"
         sudo rm ./minirootfs/etc/resolv.conf
+    - name: Create tarball from minirootfs
+      run: bsdtar -a -cf WinthainerDistribution.tar.gz ./minirootfs
+    - name: Upload distribution
+      uses: actions/upload-artifact@v2
+      with:
+        name: WinthainerDistribution.tar.gz
+        path: ./WinthainerDistribution.tar.gz
+        retention-days: 1

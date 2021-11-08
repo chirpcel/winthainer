@@ -59,8 +59,25 @@ jobs:
         path: ./WinthainerDistribution.tar.gz
         retention-days: 1
   create-deployment:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     needs: [build-toolset, build-distribution]
     steps:
-     - name: todo
-       run: echo "I will create a deployment!"
+    - name: Load toolset
+      uses: actions/download-artifact@v2
+      with:
+        name: WinthainerToolsetDeployment.zip
+    - name: Load distribution
+      uses: actions/download-artifact@v2
+      with:
+        name: WinthainerDistribution.tar.gz
+    - name: Unzip toolset
+      run: Expand-Archive -LiteralPath WinthainerToolsetDeployment.zip -DestinationPath .\WinthainerDeployment
+    - name: Move distribution into deployment
+      run: mv .\WinthainerDistribution.tar.gz .\WinthainerDeployment\
+    - name: Create deployment zip
+      run: Compress-Archive -Path .\WinthainerDeployment -DestinationPath .\WinthainerDeployment.zip
+    - name: Upload deployment
+      uses: actions/upload-artifact@v2
+      with:
+        name: WinthainerDeployment.zip
+        path: ./WinthainerDeployment.zip

@@ -2,7 +2,8 @@ name: Build toolset
 
 on:
   push:
-    branches: [ feature/deployment-creation ]
+    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   build-toolset:

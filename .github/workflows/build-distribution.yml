@@ -20,3 +20,5 @@ jobs:
       run: |
         sudo cp /etc/resolv.conf ./minirootfs/etc/resolv.conf
         sudo chroot ./minirootfs /bin/ash -c "apk update"
+        sudo chroot ./minirootfs /bin/ash -c "apk add docker"
+        sudo rm ./minirootfs/etc/resolv.conf

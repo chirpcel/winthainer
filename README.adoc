@@ -1,0 +1,56 @@
+= Winthainer
+
+== 📝 Description
+Winthainer is a little toolset which uses the wsl to provide container functionality on Windows.
+
+There are literally three components:
+
+* WinthainerDistribution
+** Alpine based wsl distribution with installed docker engine
+* WinthainerService
+** Tray application which launches dockerd inside WinthainerDistribution
+* WinthainerCommand
+** CLI tool to "proxy" commands to docker cli inside WinthainerDistribution
+
+== 📦️ Installation
+
+=== Requirements:
+* Windows >= 10
+* WSL v2 with the latest kernel
+** *hint*: run wsl --update inside PowerShell
+
+=== Installation steps:
+* Dowload latest Winthainer Release
+** https://github.com/Aitareko/winthainer/releases/latest[Go to latest release]
+* Extract WinthainerDeployment.zip
+* Run *WinthainerInstaller.exe*
+
+== 🚀 Usage
+
+=== Test functionality
+[source, sh]
+----
+WinthainerCommand.exe run hello-world
+----
+After that, you should see the output of the hello-world container.
+
+==== Local paths
+Commands like
+[source, sh]
+----
+WinthainerCommand.exe run -it -v C:\Mount:/mnt ubuntu /bin/bash
+----
+
+or
+
+[source, sh]
+----
+WintainerCommand.exe run -dit -p 8080:80 -v ${PWD}:/usr/local/apache2/htdocs/ httpd:2.4
+----
+
+will work.
+
+WinthainerCommand translates Windows paths to the equivalent WSL path. The used path have to be mounted inside wsl. Auto mount is active by default in wsl, so it should work. Otherwise, you have to mount it manually.
+
+*You can now use WinthainerCommand like Docker/Podman CLI*
+

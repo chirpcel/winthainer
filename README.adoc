@@ -27,6 +27,13 @@ There are literally three components:
 
 == 🚀 Usage
 
+=== Start service
+To use Winthainer you have to start the WinthainerService. It manages the container runtime daemon inside wsl.
+[source, sh]
+----
+WinthainerService.exe
+----
+
 === Test functionality
 [source, sh]
 ----

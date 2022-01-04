@@ -7,11 +7,11 @@ namespace WinthainerService.Utility
     {
         public void StartWinthainerServiceProcess()
         {
+            BootWinthainerDistribution();
             var winthainerServiceProcess = new Process();
             winthainerServiceProcess.StartInfo.FileName = "wsl";
             winthainerServiceProcess.StartInfo.Arguments = "-d winthainer -u root dockerd";
             winthainerServiceProcess.StartInfo.CreateNoWindow = true;
-           
             var threadStart = new ThreadStart(
                 () =>
                 {
@@ -20,6 +20,18 @@ namespace WinthainerService.Utility
             );
             var thread = new Thread(threadStart);
             thread.Start();
+        }
+
+        private void BootWinthainerDistribution()
+        {
+            var winthainerDistributionBootProcess = new Process();
+            winthainerDistributionBootProcess.StartInfo.FileName = "wsl";
+            winthainerDistributionBootProcess.StartInfo.Arguments = "-d winthainer -u root iptables -V";
+            winthainerDistributionBootProcess.StartInfo.CreateNoWindow = true;
+            winthainerDistributionBootProcess.WaitForExit();
+            winthainerDistributionBootProcess.Close();
+            // wait 30 seconds to be sure, all systems like iptables are initialized
+            Thread.Sleep(30000);
         }
 
         public void EndWinthainerServiceProcess()

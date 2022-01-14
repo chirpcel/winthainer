@@ -27,16 +27,25 @@ namespace WinthainerService.Utility
             BootWinthainerDataDistribution();
             BootWinthainerEngineDistribution();
             
-            // wait 30 seconds to be sure, all systems like iptables are initialized
-            Thread.Sleep(30000);
+            // wait 10 seconds to be sure, all systems like iptables are initialized
+            Thread.Sleep(10000);
         }
 
         private void BootWinthainerDataDistribution()
         {
+            var winthainerDataDistributionPrepareBootProcess = new Process();
+            winthainerDataDistributionPrepareBootProcess.StartInfo.FileName = "wsl";
+            winthainerDataDistributionPrepareBootProcess.StartInfo.Arguments = "-d winthainer-data -u root mkdir /mnt/wsl/winthainer-data /root/winthainer-data";
+            winthainerDataDistributionPrepareBootProcess.StartInfo.CreateNoWindow = true;
+            winthainerDataDistributionPrepareBootProcess.Start();
+            winthainerDataDistributionPrepareBootProcess.WaitForExit();
+            winthainerDataDistributionPrepareBootProcess.Close();
+
             var winthainerDataDistributionBootProcess = new Process();
             winthainerDataDistributionBootProcess.StartInfo.FileName = "wsl";
-            winthainerDataDistributionBootProcess.StartInfo.Arguments = "-d winthainer-data -u root mount --bind ~/winthainer-data /mnt/wsl/winthainer-data";
+            winthainerDataDistributionBootProcess.StartInfo.Arguments = "-d winthainer-data -u root mount --bind /root/winthainer-data /mnt/wsl/winthainer-data";
             winthainerDataDistributionBootProcess.StartInfo.CreateNoWindow = true;
+            winthainerDataDistributionBootProcess.Start();
             winthainerDataDistributionBootProcess.WaitForExit();
             winthainerDataDistributionBootProcess.Close();
         }
@@ -47,6 +56,7 @@ namespace WinthainerService.Utility
             winthainerEngineDistributionBootProcess.StartInfo.FileName = "wsl";
             winthainerEngineDistributionBootProcess.StartInfo.Arguments = "-d winthainer-engine -u root iptables -V";
             winthainerEngineDistributionBootProcess.StartInfo.CreateNoWindow = true;
+            winthainerEngineDistributionBootProcess.Start();
             winthainerEngineDistributionBootProcess.WaitForExit();
             winthainerEngineDistributionBootProcess.Close();
         }

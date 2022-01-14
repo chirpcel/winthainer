@@ -12,6 +12,7 @@ namespace WinthainerInstaller.Utility
             var installDir = appdataDir += "/Winthainer";
             Console.WriteLine("Moving files");
             Directory.CreateDirectory(installDir);
+            Directory.CreateDirectory(installDir + "/dist");
             CopyFilesFromDirectory("./WinthainerCommand", installDir);
             CopyFilesFromDirectory("./WinthainerService", installDir);
             Console.WriteLine("Setting path variable");

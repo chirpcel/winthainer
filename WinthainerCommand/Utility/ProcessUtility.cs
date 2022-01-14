@@ -7,6 +7,7 @@ namespace WinthainerCommand.Utility
     {
         public void StartWinthainerProcess(string arguments)
         {
+            WslEnvUtility.UpdateWslEnv();
             var winthainerProcess = new Process();
             winthainerProcess.StartInfo.FileName = "wsl";
             winthainerProcess.StartInfo.Arguments = "-d winthainer-engine -u root docker " + arguments;

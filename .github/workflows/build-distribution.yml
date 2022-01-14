@@ -9,6 +9,7 @@ jobs:
   build-engine:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - name: Install requirements
         run: sudo apt install libarchive-tools
       - name: Download Alpine minirootfs

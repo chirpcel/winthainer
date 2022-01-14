@@ -14,6 +14,8 @@ namespace WinthainerInstaller
             Console.WriteLine("Installing distribution...");
             new DistributionInstaller().InstallDistributions();
             Console.WriteLine("Distribution installed!");
+            Console.WriteLine("Press any key to close...");
+            Console.ReadKey();
         }
     }
 }

@@ -50,7 +50,13 @@ jobs:
         sudo cp /etc/resolv.conf ./minirootfs/etc/resolv.conf
         sudo chroot ./minirootfs /bin/ash -c "apk update"
         sudo chroot ./minirootfs /bin/ash -c "apk add docker"
-        sudo rm ./minirootfs/etc/resolv.conf
+        sudo rm ./minirootfs/etc/resolv.conf 
+    - name: Install docker-compose v2.2.3
+      run: |
+        wget -O docker-compose https://github.com/docker/compose/releases/download/v2.2.3/docker-compose-linux-x86_64 
+        sudo mkdir -p ./minirootfs/root/.docker/cli-plugins/
+        sudo mv ./docker-compose ./minirootfs/root/.docker/cli-plugins/
+        sudo chmod +x ./minirootfs/root/.docker/cli-plugins/docker-compose 
     - name: Create tarball from minirootfs
       run: bsdtar -a -cf WinthainerDistribution.tar.gz ./minirootfs
     - name: Upload distribution

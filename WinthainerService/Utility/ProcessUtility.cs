@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Threading;
 
 namespace WinthainerService.Utility
@@ -28,6 +29,7 @@ namespace WinthainerService.Utility
             BootWinthainerEngineDistribution();
             
             // wait 10 seconds to be sure, all systems like iptables are initialized
+            Console.WriteLine("Waiting 10 seconds to be sure, all distributions are initialized...");
             Thread.Sleep(10000);
         }
 

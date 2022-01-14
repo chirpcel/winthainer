@@ -9,7 +9,7 @@ namespace WinthainerCommand.Utility
         {
             var winthainerProcess = new Process();
             winthainerProcess.StartInfo.FileName = "wsl";
-            winthainerProcess.StartInfo.Arguments = "-d winthainer -u root docker " + arguments;
+            winthainerProcess.StartInfo.Arguments = "-d winthainer-engine -u root docker " + arguments;
             winthainerProcess.Start();
             winthainerProcess.WaitForExit();
         }

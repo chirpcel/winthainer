@@ -1,0 +1,8 @@
+﻿{
+  "debug": false,
+  "experimental": false,
+  "data-root": "/mnt/wsl/winthainer-data",
+  "features": {
+    "buildkit": true
+  }
+}

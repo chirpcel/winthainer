@@ -10,7 +10,7 @@ namespace WinthainerService.Utility
             BootWinthainerDistribution();
             var winthainerServiceProcess = new Process();
             winthainerServiceProcess.StartInfo.FileName = "wsl";
-            winthainerServiceProcess.StartInfo.Arguments = "-d winthainer -u root dockerd";
+            winthainerServiceProcess.StartInfo.Arguments = "-d winthainer-engine -u root dockerd";
             winthainerServiceProcess.StartInfo.CreateNoWindow = true;
             var threadStart = new ThreadStart(
                 () =>
@@ -26,7 +26,7 @@ namespace WinthainerService.Utility
         {
             var winthainerDistributionBootProcess = new Process();
             winthainerDistributionBootProcess.StartInfo.FileName = "wsl";
-            winthainerDistributionBootProcess.StartInfo.Arguments = "-d winthainer -u root iptables -V";
+            winthainerDistributionBootProcess.StartInfo.Arguments = "-d winthainer-engine -u root iptables -V";
             winthainerDistributionBootProcess.StartInfo.CreateNoWindow = true;
             winthainerDistributionBootProcess.WaitForExit();
             winthainerDistributionBootProcess.Close();
@@ -39,7 +39,7 @@ namespace WinthainerService.Utility
             var winthainerServiceProcessPidDetector = new Process();
             winthainerServiceProcessPidDetector.StartInfo.RedirectStandardOutput = true;
             winthainerServiceProcessPidDetector.StartInfo.FileName = "wsl";
-            winthainerServiceProcessPidDetector.StartInfo.Arguments = "-d winthainer -u root pgrep dockerd";
+            winthainerServiceProcessPidDetector.StartInfo.Arguments = "-d winthainer-engine -u root pgrep dockerd";
             winthainerServiceProcessPidDetector.StartInfo.CreateNoWindow = true;
             winthainerServiceProcessPidDetector.Start();
             var winthainerServiceProcessPid = "";
@@ -53,7 +53,7 @@ namespace WinthainerService.Utility
             var winthainerServiceProcessKiller = new Process();
             winthainerServiceProcessKiller.StartInfo.RedirectStandardOutput = true;
             winthainerServiceProcessKiller.StartInfo.FileName = "wsl";
-            winthainerServiceProcessKiller.StartInfo.Arguments = "-d winthainer -u root kill " + winthainerServiceProcessPid;
+            winthainerServiceProcessKiller.StartInfo.Arguments = "-d winthainer-engine -u root kill " + winthainerServiceProcessPid;
             winthainerServiceProcessKiller.StartInfo.CreateNoWindow = true;
             winthainerServiceProcessKiller.Start();
             winthainerServiceProcessKiller.WaitForExit();

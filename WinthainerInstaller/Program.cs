@@ -12,7 +12,7 @@ namespace WinthainerInstaller
             new ToolInstaller().InstallToolset();
             Console.WriteLine("Toolset installed!");
             Console.WriteLine("Installing distribution...");
-            new DistributionInstaller().InstallDistribution();
+            new DistributionInstaller().InstallDistributions();
             Console.WriteLine("Distribution installed!");
         }
     }

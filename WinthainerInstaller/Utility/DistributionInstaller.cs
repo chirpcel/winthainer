@@ -5,20 +5,31 @@ namespace WinthainerInstaller.Utility
 {
     public class DistributionInstaller
     {
-        public void InstallDistribution()
+        public void InstallDistributions()
         {
             var appdataDir = Environment.GetEnvironmentVariable("APPDATA");
             var installDir = appdataDir += "/Winthainer/dist";
             Console.WriteLine("Importing distribution");
-            ImportDistributionToWSL(installDir);
+            ImportEngineDistributionToWSL(installDir + "/engine");
+            ImportDataDistributionToWSL(installDir + "/data");
         }
         
-        private void ImportDistributionToWSL(string installDir)
+        private void ImportEngineDistributionToWSL(string installDir)
         {
             var winthainerProcess = new Process();
             winthainerProcess.StartInfo.FileName = "wsl";
             winthainerProcess.StartInfo.Arguments =
-                "--import Winthainer " + installDir + " ./WinthainerDistribution.tar.gz";
+                "--import winthainer-engine " + installDir + " ./WinthainerEngine.tar.gz";
+            winthainerProcess.Start();
+            winthainerProcess.WaitForExit();
+        }
+        
+        private void ImportDataDistributionToWSL(string installDir)
+        {
+            var winthainerProcess = new Process();
+            winthainerProcess.StartInfo.FileName = "wsl";
+            winthainerProcess.StartInfo.Arguments =
+                "--import winthainer-data " + installDir + " ./WinthainerData.tar.gz";
             winthainerProcess.Start();
             winthainerProcess.WaitForExit();
         }

@@ -19,7 +19,7 @@ namespace WinthainerInstaller.Utility
             var winthainerProcess = new Process();
             winthainerProcess.StartInfo.FileName = "wsl";
             winthainerProcess.StartInfo.Arguments =
-                "--import winthainer-engine " + installDir + " ./WinthainerEngine.tar.gz";
+                "--import winthainer-engine " + installDir + " ./WinthainerEngine.tar.gz --version 2";
             winthainerProcess.Start();
             winthainerProcess.WaitForExit();
         }
@@ -29,7 +29,7 @@ namespace WinthainerInstaller.Utility
             var winthainerProcess = new Process();
             winthainerProcess.StartInfo.FileName = "wsl";
             winthainerProcess.StartInfo.Arguments =
-                "--import winthainer-data " + installDir + " ./WinthainerData.tar.gz";
+                "--import winthainer-data " + installDir + " ./WinthainerData.tar.gz --version 2";
             winthainerProcess.Start();
             winthainerProcess.WaitForExit();
         }

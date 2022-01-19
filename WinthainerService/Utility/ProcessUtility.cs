@@ -107,6 +107,26 @@ namespace WinthainerService.Utility
             winthainerServiceProcessKiller.Start();
             winthainerServiceProcessKiller.WaitForExit();
             winthainerServiceProcessKiller.Close();
+            ShutdownWinthainerDistributions();
+        }
+
+        private void ShutdownWinthainerDistributions()
+        {
+            var winthainerEngineShutdownProcess = new Process();
+            winthainerEngineShutdownProcess.StartInfo.FileName = "wsl";
+            winthainerEngineShutdownProcess.StartInfo.Arguments = "-t winthainer-engine";
+            winthainerEngineShutdownProcess.StartInfo.CreateNoWindow = true;
+            winthainerEngineShutdownProcess.Start();
+            winthainerEngineShutdownProcess.WaitForExit();
+            winthainerEngineShutdownProcess.Close();
+            
+            var winthainerDataShutdownProcess = new Process();
+            winthainerDataShutdownProcess.StartInfo.FileName = "wsl";
+            winthainerDataShutdownProcess.StartInfo.Arguments = "-t winthainer-data";
+            winthainerDataShutdownProcess.StartInfo.CreateNoWindow = true;
+            winthainerDataShutdownProcess.Start();
+            winthainerDataShutdownProcess.WaitForExit();
+            winthainerDataShutdownProcess.Close();
         }
     }
 }

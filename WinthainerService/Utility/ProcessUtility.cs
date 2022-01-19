@@ -8,6 +8,7 @@ namespace WinthainerService.Utility
     {
         public void StartWinthainerServiceProcess()
         {
+            SetWinthainerDistributionVersion();
             BootWinthainerDistributions();
             var winthainerServiceProcess = new Process();
             winthainerServiceProcess.StartInfo.FileName = "wsl";
@@ -21,6 +22,25 @@ namespace WinthainerService.Utility
             );
             var thread = new Thread(threadStart);
             thread.Start();
+        }
+
+        private void SetWinthainerDistributionVersion()
+        {
+            var setEngineDistributionVersionProcess = new Process();
+            setEngineDistributionVersionProcess.StartInfo.FileName = "wsl";
+            setEngineDistributionVersionProcess.StartInfo.Arguments = "--set-version winthainer-engine 2";
+            setEngineDistributionVersionProcess.StartInfo.CreateNoWindow = true;
+            setEngineDistributionVersionProcess.Start();
+            setEngineDistributionVersionProcess.WaitForExit();
+            setEngineDistributionVersionProcess.Close();
+            
+            var setDataDistributionVersionProcess = new Process();
+            setDataDistributionVersionProcess.StartInfo.FileName = "wsl";
+            setDataDistributionVersionProcess.StartInfo.Arguments = "--set-version winthainer-data 2";
+            setDataDistributionVersionProcess.StartInfo.CreateNoWindow = true;
+            setDataDistributionVersionProcess.Start();
+            setDataDistributionVersionProcess.WaitForExit();
+            setDataDistributionVersionProcess.Close();
         }
 
         private void BootWinthainerDistributions()

@@ -17,6 +17,12 @@ namespace WinthainerService.UI
 
         private ContextMenu GetTrayIconContextMenu()
         {
+            var openLogItem = new MenuItem()
+            {
+                Header = "Open log",
+                ToolTip = "Opens the daemon log",
+                Command = new OpenLogCommand()
+            };
             var quitItem = new MenuItem()
             {
                 Header = "Quit",
@@ -25,7 +31,7 @@ namespace WinthainerService.UI
             };
             return new ContextMenu()
             {
-                Items = {quitItem}
+                Items = {openLogItem, quitItem}
             };
         }
     }

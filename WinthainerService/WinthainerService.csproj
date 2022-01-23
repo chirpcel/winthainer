@@ -9,6 +9,7 @@
         <RuntimeIdentifier>win-x64</RuntimeIdentifier>
         <ApplicationIcon>Resources\container-truck.ico</ApplicationIcon>
         <VersionPrefix>1.0.1</VersionPrefix>
+        <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>

@@ -19,7 +19,7 @@ namespace WinthainerService.UI
         {
             var openLogItem = new MenuItem()
             {
-                Header = "Open Log",
+                Header = "Open log",
                 ToolTip = "Opens the daemon log",
                 Command = new OpenLogCommand()
             };

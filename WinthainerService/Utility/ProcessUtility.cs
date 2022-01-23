@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
 using System.Threading;
 
 namespace WinthainerService.Utility
@@ -8,11 +9,13 @@ namespace WinthainerService.Utility
     {
         public void StartWinthainerServiceProcess()
         {
+            var logFile = new LogUtility().GetDaemonLogPath();
+            var wslLogFile = MapPathToWsl(logFile);
             SetWinthainerDistributionVersion();
             BootWinthainerDistributions();
             var winthainerServiceProcess = new Process();
             winthainerServiceProcess.StartInfo.FileName = "wsl";
-            winthainerServiceProcess.StartInfo.Arguments = "-d winthainer-engine -u root dockerd";
+            winthainerServiceProcess.StartInfo.Arguments = "-d winthainer-engine -u root dockerd 2> " + wslLogFile;
             winthainerServiceProcess.StartInfo.CreateNoWindow = true;
             var threadStart = new ThreadStart(
                 () =>
@@ -127,6 +130,24 @@ namespace WinthainerService.Utility
             winthainerDataShutdownProcess.Start();
             winthainerDataShutdownProcess.WaitForExit();
             winthainerDataShutdownProcess.Close();
+        }
+        
+        private string MapPathToWsl(string pathToMap)
+        {
+            if (pathToMap.Length > 2)
+            {
+                var regex = @"[A-Z][:]";
+                var winLetter = pathToMap.Substring(0, 2);
+                var match = Regex.Match(winLetter, regex, RegexOptions.IgnoreCase);
+                if (match.Success)
+                {
+                    var wslLetter = "/mnt/" + winLetter.Substring(0, 1).ToLower();
+                    var mappedPath = pathToMap.Replace(winLetter, wslLetter);
+                    mappedPath = mappedPath.Replace("\\", "/");
+                    return mappedPath;
+                }
+            }
+            return pathToMap;
         }
     }
 }

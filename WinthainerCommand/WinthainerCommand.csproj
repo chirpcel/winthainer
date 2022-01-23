@@ -8,6 +8,7 @@
         <IncludeAllContentForSelfExtract>false</IncludeAllContentForSelfExtract>
         <RuntimeIdentifier>win-x64</RuntimeIdentifier>
         <ApplicationIcon>Resources\container-truck.ico</ApplicationIcon>
+        <VersionPrefix>1.0.1</VersionPrefix>
     </PropertyGroup>
     
 </Project>

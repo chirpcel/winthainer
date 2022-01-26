@@ -10,21 +10,34 @@ namespace WinthainerInstaller.Utility
             var appdataDir = Environment.GetEnvironmentVariable("APPDATA");
             var installDir = appdataDir += "/Winthainer/dist";
             Console.WriteLine("Importing distribution");
-            ImportEngineDistributionToWSL(installDir + "/engine");
-            ImportDataDistributionToWSL(installDir + "/data");
+            ImportEngineDistributionToWsl(installDir + "/engine");
+            ImportDataDistributionToWsl(installDir + "/data");
         }
         
-        private void ImportEngineDistributionToWSL(string installDir)
+        private void ImportEngineDistributionToWsl(string installDir)
         {
+            DeleteExistingEngineDistribution();
             var winthainerProcess = new Process();
             winthainerProcess.StartInfo.FileName = "wsl";
             winthainerProcess.StartInfo.Arguments =
                 "--import winthainer-engine " + installDir + " ./WinthainerEngine.tar.gz --version 2";
             winthainerProcess.Start();
             winthainerProcess.WaitForExit();
+            winthainerProcess.Close();
+        }
+
+        private void DeleteExistingEngineDistribution()
+        {
+            var winthainerProcess = new Process();
+            winthainerProcess.StartInfo.FileName = "wsl";
+            winthainerProcess.StartInfo.Arguments =
+                "--unregister winthainer-engine";
+            winthainerProcess.Start();
+            winthainerProcess.WaitForExit();
+            winthainerProcess.Close();
         }
         
-        private void ImportDataDistributionToWSL(string installDir)
+        private void ImportDataDistributionToWsl(string installDir)
         {
             var winthainerProcess = new Process();
             winthainerProcess.StartInfo.FileName = "wsl";

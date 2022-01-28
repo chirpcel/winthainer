@@ -20,18 +20,21 @@ namespace WinthainerService.UI
             var openLogItem = new MenuItem()
             {
                 Header = "Open log",
-                ToolTip = "Opens the daemon log",
                 Command = new OpenLogCommand()
+            };
+            var memoryCleanupItem = new MenuItem()
+            {
+                Header = "Cleanup memory",
+                Command = new MemoryCleanupCommand()
             };
             var quitItem = new MenuItem()
             {
                 Header = "Quit",
-                ToolTip = "Quit WinthainerService",
                 Command = new QuitCommand()
             };
             return new ContextMenu()
             {
-                Items = {openLogItem, quitItem}
+                Items = {openLogItem, memoryCleanupItem, quitItem}
             };
         }
     }

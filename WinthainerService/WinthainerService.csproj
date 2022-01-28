@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
-        <TargetFramework>net5.0-windows</TargetFramework>
+        <TargetFramework>net6.0-windows</TargetFramework>
         <PublishSingleFile>false</PublishSingleFile>
         <SelfContained>true</SelfContained>
         <IncludeAllContentForSelfExtract>false</IncludeAllContentForSelfExtract>
@@ -10,6 +10,7 @@
         <ApplicationIcon>Resources\container-truck.ico</ApplicationIcon>
         <VersionPrefix>1.0.1</VersionPrefix>
         <Nullable>enable</Nullable>
+        <LangVersion>10</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>

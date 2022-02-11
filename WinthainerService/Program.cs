@@ -10,9 +10,17 @@ namespace WinthainerService
         [STAThread]
         static void Main(string[] args)
         {
-            new ProcessUtility().StartWinthainerServiceProcess();
-            new TrayIcon().ShowTrayIcon();
-            Application.Run();
+            if (args.Length == 1 &&  args[0] == "quit")
+            {
+                new ProcessUtility().EndWinthainerServiceProcess();
+                Application.Exit();
+            }
+            else
+            {
+                new ProcessUtility().StartWinthainerServiceProcess();
+                new TrayIcon().ShowTrayIcon();
+                Application.Run();
+            }
         }
     }
 }

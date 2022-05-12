@@ -19,7 +19,8 @@ namespace WinthainerService.UI
             {
                 Icon = GetTrayIcon(),
                 ContextMenuStrip = GetContextMenuStrip(),
-                Visible = true
+                Visible = true,
+                Text = "Winthainer"
             };
         }
 

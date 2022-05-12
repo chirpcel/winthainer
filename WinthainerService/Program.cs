@@ -18,8 +18,7 @@ namespace WinthainerService
             else
             {
                 new ProcessUtility().StartWinthainerServiceProcess();
-                new TrayIcon().ShowTrayIcon();
-                Application.Run();
+                Application.Run(new WinthainerAppCtx());
             }
         }
     }

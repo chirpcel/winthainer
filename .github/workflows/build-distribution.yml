@@ -13,11 +13,11 @@ jobs:
       - name: Install requirements
         run: sudo apt install libarchive-tools
       - name: Download Alpine minirootfs
-        run: wget https://dl-cdn.alpinelinux.org/alpine/v3.15/releases/x86_64/alpine-minirootfs-3.15.0-x86_64.tar.gz
+        run: wget https://dl-cdn.alpinelinux.org/alpine/v3.15/releases/x86_64/alpine-minirootfs-3.15.4-x86_64.tar.gz
       - name: Unpack Alpine minirootfs
         run: |
           mkdir minirootfs
-          bsdtar -xpf alpine-minirootfs-3.15.0-x86_64.tar.gz -C minirootfs
+          bsdtar -xpf alpine-minirootfs-3.15.4-x86_64.tar.gz -C minirootfs
       - name: Chroot Alpine minirootfs
         run: |
           sudo cp /etc/resolv.conf ./minirootfs/etc/resolv.conf
@@ -46,10 +46,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download Alpine minirootfs
-        run: wget https://dl-cdn.alpinelinux.org/alpine/v3.15/releases/x86_64/alpine-minirootfs-3.15.0-x86_64.tar.gz
+        run: wget https://dl-cdn.alpinelinux.org/alpine/v3.15/releases/x86_64/alpine-minirootfs-3.15.4-x86_64.tar.gz
       - name: Upload distribution
         uses: actions/upload-artifact@v2
         with:
           name: WinthainerData.tar.gz
-          path: ./alpine-minirootfs-3.15.0-x86_64.tar.gz
+          path: ./alpine-minirootfs-3.15.4-x86_64.tar.gz
           retention-days: 7

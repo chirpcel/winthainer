@@ -28,7 +28,7 @@ jobs:
           sudo rm ./minirootfs/etc/resolv.conf
       - name: Install docker-compose v2.5.0
         run: |
-          wget -O docker-compose https://github.com/docker/compose/releases/download/v2.5.0/docker-compose-linux-x86_64 
+          wget -O docker-compose https://github.com/docker/compose/releases/latest/download/docker-compose-linux-x86_64
           sudo mkdir -p ./minirootfs/root/.docker/cli-plugins/
           sudo mv ./docker-compose ./minirootfs/root/.docker/cli-plugins/
           sudo chmod +x ./minirootfs/root/.docker/cli-plugins/docker-compose 

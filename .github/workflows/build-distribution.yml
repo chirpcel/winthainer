@@ -17,7 +17,7 @@ jobs:
       - name: Unpack Debian rootfs
         run: |
           mkdir rootfs
-          bsdtar -xpf install.tar.gz -C rootfs
+          echo `bsdtar -xpf install.tar.gz -C rootfs`
       - name: Chroot Debian rootfs
         run: |
           sudo cp /etc/resolv.conf ./rootfs/etc/resolv.conf

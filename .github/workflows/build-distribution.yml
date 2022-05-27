@@ -12,29 +12,27 @@ jobs:
       - uses: actions/checkout@v2
       - name: Install requirements
         run: sudo apt install libarchive-tools
-      - name: Download Alpine minirootfs
-        run: wget https://dl-cdn.alpinelinux.org/alpine/v3.15/releases/x86_64/alpine-minirootfs-3.15.4-x86_64.tar.gz
-      - name: Unpack Alpine minirootfs
+      - name: Download Debian rootfs
+        run: wget https://salsa.debian.org/debian/WSL/-/raw/master/x64/install.tar.gz
+      - name: Unpack Debian rootfs
         run: |
-          mkdir minirootfs
-          bsdtar -xpf alpine-minirootfs-3.15.4-x86_64.tar.gz -C minirootfs
-      - name: Chroot Alpine minirootfs
+          mkdir rootfs
+          bsdtar -xpf install.tar.gz -C rootfs
+      - name: Chroot Debian rootfs
         run: |
-          sudo cp /etc/resolv.conf ./minirootfs/etc/resolv.conf
-          sudo chroot ./minirootfs /bin/ash -c "apk update"
-          sudo chroot ./minirootfs /bin/ash -c "apk add docker"
-          sudo chroot ./minirootfs /bin/ash -c "mkdir /etc/docker"
-          sudo cp Resources/daemon.json ./minirootfs/etc/docker/
-          sudo rm ./minirootfs/etc/resolv.conf
-      - name: Install docker-compose v2.5.0
+          sudo cp /etc/resolv.conf ./rootfs/etc/resolv.conf
+          sudo chroot ./rootfs /bin/bash -c "apt update"
+          sudo chroot ./rootfs /bin/bash -c "apt -y install ca-certificates curl gnupg lsb-release"
+          sudo chroot ./rootfs /bin/bash -c "mkdir -p /etc/apt/keyrings"
+          sudo chroot ./rootfs /bin/bash -c "curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg"
+          sudo chroot ./rootfs /bin/bash -c "echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null"
+          sudo chroot ./rootfs /bin/bash -c "apt update"
+          sudo chroot ./rootfs /bin/bash -c "apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin"
+          sudo cp Resources/daemon.json ./rootfs/etc/docker/
+          sudo rm ./rootfs/etc/resolv.conf
+      - name: Create tarball from rootfs
         run: |
-          wget -O docker-compose https://github.com/docker/compose/releases/latest/download/docker-compose-linux-x86_64
-          sudo mkdir -p ./minirootfs/root/.docker/cli-plugins/
-          sudo mv ./docker-compose ./minirootfs/root/.docker/cli-plugins/
-          sudo chmod +x ./minirootfs/root/.docker/cli-plugins/docker-compose 
-      - name: Create tarball from minirootfs
-        run: |
-          cd ./minirootfs
+          cd ./rootfs
           bsdtar -a -cf ../WinthainerEngine.tar.gz *
       - name: Upload distribution
         uses: actions/upload-artifact@v2
